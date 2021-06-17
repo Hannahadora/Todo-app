@@ -1,3 +1,96 @@
 body {
     font-family: 'Josefin Sans', sans-serif;
 }
+
+#todo-board {
+    position: absolute;
+    top: 100px;
+    left: 350px;
+}
+
+form {
+    position:fixed;
+    z-index: 9999999999999;
+    padding: 5px 50px;
+    margin: 40px 0;
+}
+
+input[type='text'] {
+    background: transparent;
+}
+
+input[type='radio'] {
+    background: transparent;
+}
+
+input :focus {
+    outline: none;
+}
+
+.undone {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #808080;
+    border-radius: 50%;
+}
+
+  /* .done {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #808080;
+    border-radius: 50%;
+    background: url('../assets/images/icon-check.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: linear-gradient(to left, hsl(192, 100%, 67%), hsl(280, 87%, 65%));
+  } */
+
+.items {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 16px;
+    padding: 30px 50px;
+    color: white;
+    border-bottom: 1px solid white;
+}
+
+.completed {
+    text-decoration: line-through;
+    opacity: 0.5;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #808080;
+    border-radius: 50%;
+    background: url('../images/icon-check.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: linear-gradient(to left, hsl(192, 100%, 67%), hsl(280, 87%, 65%));
+}
+
+.butt .active {
+    color: blue
+}
+
+.butt a:focus {
+    outline: none;
+}
+
+
+@media screen and (max-width: 768px) {
+    #todo-board {
+        position: absolute;
+        top: 100px;
+        left: 80px;
+    }
+}
+
+@media screen and (max-width: 540px) {
+    #todo-board {
+        position: absolute;
+        top: 80px;
+        left: 30px;
+    }
+}

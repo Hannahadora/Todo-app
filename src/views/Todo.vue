@@ -5,7 +5,7 @@
       <div class="bg-black h-full"></div>
     </div>
 
-    <div id="todo-board" class="w-1/2 items-center">
+    <div id="todo-board" class="lg:w-1/2 md:w-9/12 w-10/12 items-center">
       <div class="flex justify-between items-center">
         <h1 class="text-white text-xl tracking-widest">TODO</h1>
         <img src="../assets/images/icon-sun.svg" alt="">
@@ -19,7 +19,7 @@
           class="px-5 py-2 focus:outline-none text-white w-10/12">
       </form>
 
-      <div class="bg-gray-900">
+      <div class="bg-gray-900 mt-10 overflow-y-scroll">
 
           <ul>
             <li v-for="todo in todos" :key="todo.id" class="items flex items-center gap-5">
@@ -149,73 +149,6 @@ export default {
 
 
 <style scoped>
-  #todo-board {
-    position: absolute;
-    top: 100px;
-    left: 350px;
-  }
-  form{
-    padding: 5px 50px;
-    margin: 40px 0;
-  }
-  input[type='text'] {
-    background: transparent;
-  }
- input[type='radio'] {
-    background: transparent;
-  }
-  input :focus {
-    outline: none;
-  }
-  .undone {
-    width: 20px;
-    height: 20px;
-    border: 1px solid #808080;
-    border-radius: 50%;
-  }
-
-  /* .done {
-    width: 20px;
-    height: 20px;
-    border: 1px solid #808080;
-    border-radius: 50%;
-    background: url('../assets/images/icon-check.svg');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-image: linear-gradient(to left, hsl(192, 100%, 67%), hsl(280, 87%, 65%));
-  } */
-
- .items {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    font-size: 16px;
-    padding: 30px 50px;
-    color: white;
-    border-bottom: 1px solid white;
-  }
-
-  .completed {
-    text-decoration: line-through;
-    opacity: 0.5;
-    width: 20px;
-    height: 20px;
-    border: 1px solid #808080;
-    border-radius: 50%;
-    background: url('../assets/images/icon-check.svg');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-image: linear-gradient(to left, hsl(192, 100%, 67%), hsl(280, 87%, 65%));
-}
-
-.butt .active {
-  color: blue
-}
-
-.butt a:focus {
-  outline: none;
-}
+ 
 
 </style>
