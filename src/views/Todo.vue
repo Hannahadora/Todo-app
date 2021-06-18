@@ -11,21 +11,23 @@
         <img src="../assets/images/icon-sun.svg" alt="">
       </div>
     
-      <form @submit.prevent="addTodo" action="" class="bg-gray-900 flex items-center gap-5">
-        <!-- <input class="undone" v-model="undone"> -->
+      <form @submit.prevent="addTodo" action="" class="bg-gray-900 flex items-center gap-10">
+        <div class="undone"></div>
         <input type="text"
           placeholder="Create a new todo"
           v-model="newTodo"
-          class="px-5 py-2 focus:outline-none text-white w-10/12">
+          class="py-3 focus:outline-none text-white w-10/12">
       </form>
 
-      <div class="bg-gray-900 mt-10 overflow-y-scroll">
+      <div class="todo-list bg-gray-900">
 
           <ul>
-            <li v-for="todo in todos" :key="todo.id" class="items flex items-center gap-5">
-              <span class="undone" :class="{completed : todo.completed}">{{ undone }}</span>
-              <p :class="{completed : todo.completed}" @click="toggleCompleted(todo)">{{ todo.name }}</p> 
-              <button id="deleteBtn" @click="deleteTodo(todo.id)"><img src="../assets/images/icon-cross.svg" alt=""></button>
+            <li v-for="(todo, index) in filteredTodos" :key="todo.id" class="items">
+              <div @click="toggleCompleted(todo)" :class="{'checked' : todo.completed}" class="undone">
+                <img :class="{'iconchecked' : todo.completed}" class="w-auto pt-1 m-auto hidden" src="../assets/images/icon-check.svg" alt=""></div> 
+                <p :class="{'namechecked' : todo.completed}" class="ml-14 w-10/12">{{ todo.name }}</p>
+                
+              <button class="deleteBtn"  @click="deleteTodo(index)"><img src="../assets/images/icon-cross.svg" alt=""></button>
             </li>
           </ul>
     
@@ -33,12 +35,12 @@
           <p>{{ todos.length }} Items left</p>
 
           <div class="flex items-center gap-5">
-            <button @click="filterAll" class="butt focus:outline-none">All</button>
-            <!-- <button @click="filterActive" class="butt focus:outline-none">Active</button> -->
-            <button @click="filterCompleted" class="butt focus:outline-none">Completed</button>
+            <button :class="{active: type ===''}" @click="filterType('')" class="butt focus:outline-none">All</button>
+            <button :class="{active: type ==='ongoing'}" @click="filterType('ongoing')" class="butt focus:outline-none">Active</button>
+            <button :class="{active: type ==='completed'}" @click="filterType('completed')" class="butt focus:outline-none">Completed</button>
           </div>
 
-          <p>Clear Completed</p>
+          <button @click="clearCompleted">Clear Completed</button>
         </div>
       </div>
 
@@ -57,61 +59,67 @@ export default {
   
   data() {
     return {
-     undone: '',
-     newTodo: '',
-     todo: '',
-     todos: []
+      type: '',
+      newTodo: '',
+      todo: '',
+      todos: []
     }
   },
 
-  beforeMount: function() {
-    if (this.todos) {
-      this.todos = JSON.parse(localStorage.getItem('todos'))  
-    } else 
-      this.todos = []
-  },
+  // beforeMount: function() {
+  //   if (this.todos) {
+  //     this.todos = JSON.parse(localStorage.getItem('todos'))  
+  //   } else 
+  //     return false
+  // },
 
 
   computed: {
-    // totalTodo: function() {
-    //       if (!this.todos) {
-    //           return 0;
-    //       } else {
-    //         todos.length
-    //       }
-    // }
+    filteredTodos() {
+      return this.todos.filter(todo => {
+          switch(this.type) {
+              case 'ongoing':
+                  return !todo.completed;
+              case 'completed':
+                  return todo.completed;
+              default:
+                  return true;
+          }
+      });
+  }
   },
 
 
   methods: {
-    saveTodo() {
-      this.todos = JSON.parse(localStorage.getItem('todos'))  
-      if(localStorage.getItem('todos') ===  null) {
+    filterType(type) {
+      this.type = type;
+    },
+
+    saveTodo(todo) {
+      if(!localStorage.getItem('todos')) {
         this.todos = []
       } else {
         this.todos = JSON.parse(localStorage.getItem('todos'))  
       }
        this.todos.push(this.todo)
       localStorage.setItem('todos', JSON.stringify(this.todos))
+
     },
   
-    removeTodo(todo) {
+    removeTodo(index) {
       this.todos = JSON.parse(localStorage.getItem('todos'))
-
-      this.todos.splice(todo.id, 1)
-
-       localStorage.setItem('todos', JSON.stringify(this.todos))
+      this.todos.splice(index, 1)
+      localStorage.setItem('todos', JSON.stringify(this.todos))
     },
 
     addTodo() {
       if(this.newTodo) {
         this.todo = {
-          id: this.todos.length + 1,
+          // id: this.todos.length + 1,
           name: this.newTodo,
           completed: false
         }
         this.saveTodo() 
-        this.todos.push(this.todo)
         this.newTodo = ''; 
        } else {
           alert('No Task')
@@ -120,28 +128,19 @@ export default {
     },
 
     toggleCompleted(todo) {
-      todo.completed = !todo.completed;
+      todo.completed = !todo.completed;     
+      localStorage.setItem('todos', JSON.stringify(this.todos))
     },
 
-    deleteTodo(todo, id) {
-       this.todos.splice(todo.id, 1)
-
-       this.removeTodo(todo)
+    deleteTodo(index) {
+       this.todos.splice(index, 1)
+       this.removeTodo(index)
     },
 
-    filterAll() {
-      if(this.todos) {
-       this.todos
-      }
-    },
+    clearCompleted() {
+      this.todos.filter((todo) => this.todo.completed === true ? this.todos.remove(todo) : false)
+    }
 
-    filterCompleted() {
-      this.todos.forEach((todo) => {
-        if (todo.completed) {
-          this.todo
-        }
-      })
-    },
   }
 }
 </script>

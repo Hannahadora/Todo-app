@@ -9,9 +9,7 @@ body {
 }
 
 form {
-    position:fixed;
-    z-index: 9999999999999;
-    padding: 5px 50px;
+    padding: 7px 50px;
     margin: 40px 0;
 }
 
@@ -27,6 +25,10 @@ input :focus {
     outline: none;
 }
 
+.todo-list {
+    margin-top: 50px;
+}
+
 .undone {
     width: 20px;
     height: 20px;
@@ -34,48 +36,46 @@ input :focus {
     border-radius: 50%;
 }
 
-  /* .done {
-    width: 20px;
-    height: 20px;
-    border: 1px solid #808080;
-    border-radius: 50%;
-    background: url('../assets/images/icon-check.svg');
+.checked {
     background-repeat: no-repeat;
     background-position: center;
     background-image: linear-gradient(to left, hsl(192, 100%, 67%), hsl(280, 87%, 65%));
-  } */
+  }
+
+.iconchecked {
+    display: block;
+}
 
 .items {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    gap: 10px;
     font-size: 16px;
     padding: 30px 50px;
     color: white;
     border-bottom: 1px solid white;
 }
 
-.completed {
-    text-decoration: line-through;
-    opacity: 0.5;
-    width: 20px;
-    height: 20px;
-    border: 1px solid #808080;
-    border-radius: 50%;
-    background: url('../images/icon-check.svg');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-image: linear-gradient(to left, hsl(192, 100%, 67%), hsl(280, 87%, 65%));
+.deleteBtn {
+    display: none;
 }
 
-.butt .active {
-    color: blue
+.items:hover .deleteBtn {
+    display: block;
+}
+
+.namechecked {
+    text-decoration: line-through;
+    opacity: 0.5;
 }
 
 .butt a:focus {
     outline: none;
+}
+
+.active {
+    color: blue;
 }
 
 
