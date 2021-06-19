@@ -8,7 +8,7 @@
     <div id="todo-board" class="lg:w-1/2 md:w-9/12 w-10/12 items-center">
       <div class="flex justify-between items-center">
         <h1 class="text-white text-xl tracking-widest">TODO</h1>
-        <img src="../assets/images/icon-sun.svg" alt="">
+        <button @click="changeTheme" class="butt"><img src="../assets/images/icon-sun.svg" alt=""></button>
       </div>
     
       <form @submit.prevent="addTodo" action="" class="bg-gray-900 flex items-center gap-10">
@@ -16,33 +16,40 @@
         <input type="text"
           placeholder="Create a new todo"
           v-model="newTodo"
-          class="py-3 focus:outline-none text-white w-10/12">
+          class="py-3 focus:outline-none w-10/12">
       </form>
 
       <div class="todo-list bg-gray-900">
 
-          <ul>
-            <li v-for="(todo, index) in filteredTodos" :key="todo.id" class="items">
-              <div @click="toggleCompleted(todo)" :class="{'checked' : todo.completed}" class="undone">
-                <img :class="{'iconchecked' : todo.completed}" class="w-auto pt-1 m-auto hidden" src="../assets/images/icon-check.svg" alt=""></div> 
-                <p :class="{'namechecked' : todo.completed}" class="ml-14 w-10/12">{{ todo.name }}</p>
-                
-              <button class="deleteBtn"  @click="deleteTodo(index)"><img src="../assets/images/icon-cross.svg" alt=""></button>
-            </li>
-          </ul>
+        <ul class="list-items">
+          <li v-for="(todo, index) in filteredTodos" :key="todo.id" class="items">
+            <div @click="toggleCompleted(todo)" :class="{'checked' : todo.completed}" class="undone">
+              <img :class="{'iconchecked' : todo.completed}" class="w-auto pt-1 m-auto hidden" src="../assets/images/icon-check.svg" alt=""></div> 
+              <p :class="{'namechecked' : todo.completed}" class="ml-14 w-10/12">{{ todo.name }}</p>
+              
+            <button class="deleteBtn butt"  @click="deleteTodo(index)"><img src="../assets/images/icon-cross.svg" alt=""></button>
+          </li>
+        </ul>
     
-        <div class="flex items-center justify-between text-white px-12 py-5">
-          <p>{{ todos.length }} Items left</p>
+        <div class="filterBtns lg:px-12 md:px-7 px-3 py-4">
+          <p class="sec1">{{ todos.length }} Items left</p>
 
           <div class="flex items-center gap-5">
-            <button :class="{active: type ===''}" @click="filterType('')" class="butt focus:outline-none">All</button>
-            <button :class="{active: type ==='ongoing'}" @click="filterType('ongoing')" class="butt focus:outline-none">Active</button>
-            <button :class="{active: type ==='completed'}" @click="filterType('completed')" class="butt focus:outline-none">Completed</button>
+            <button :class="{active: type ===''}" @click="filterType('')" class="butt">All</button>
+            <button :class="{active: type ==='ongoing'}" @click="filterType('ongoing')" class="butt">Active</button>
+            <button :class="{active: type ==='completed'}" @click="filterType('completed')" class="butt">Completed</button>
           </div>
 
-          <button @click="clearCompleted">Clear Completed</button>
+          <button @click="clearCompleted" class="butt sec2">Clear Completed</button>
         </div>
+
       </div>
+
+      <div class="text-center mb-10 mt-20 sec3">
+         <p>Drag and drop to reorder list</p>
+      </div>
+
+
 
     </div>
   </div>
@@ -66,12 +73,12 @@ export default {
     }
   },
 
-  // beforeMount: function() {
-  //   if (this.todos) {
-  //     this.todos = JSON.parse(localStorage.getItem('todos'))  
-  //   } else 
-  //     return false
-  // },
+  beforeMount: function() {
+    if (this.todos) {
+      this.todos = JSON.parse(localStorage.getItem('todos'))  
+    } else 
+      return false
+  },
 
 
   computed: {
@@ -105,12 +112,6 @@ export default {
       localStorage.setItem('todos', JSON.stringify(this.todos))
 
     },
-  
-    removeTodo(index) {
-      this.todos = JSON.parse(localStorage.getItem('todos'))
-      this.todos.splice(index, 1)
-      localStorage.setItem('todos', JSON.stringify(this.todos))
-    },
 
     addTodo() {
       if(this.newTodo) {
@@ -134,11 +135,16 @@ export default {
 
     deleteTodo(index) {
        this.todos.splice(index, 1)
-       this.removeTodo(index)
+       localStorage.setItem('todos', JSON.stringify(this.todos))
     },
 
     clearCompleted() {
-      this.todos.filter((todo) => this.todo.completed === true ? this.todos.remove(todo) : false)
+      this.todos = this.todos.filter((todo) => !todo.completed) 
+      localStorage.setItem('todos', JSON.stringify(this.todos))
+    },
+
+    changeTheme() {
+
     }
 
   }
