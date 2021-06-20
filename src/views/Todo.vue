@@ -1,14 +1,11 @@
 <template>
-  <div class="todo">
-    <div class="h-screen fixed">
-      <img class="h-80" src="../assets/images/bg-desktop-dark.jpg" alt="">
-      <div class="bg-black h-full"></div>
-    </div>
+  <div class="todo h-screen w-full" :class="mode">
+    <div class="holder h-80"></div>
 
     <div id="todo-board" class="lg:w-1/2 md:w-9/12 w-10/12 items-center">
       <div class="flex justify-between items-center">
         <h1 class="text-white text-xl tracking-widest">TODO</h1>
-        <button @click="changeTheme" class="butt"><img src="../assets/images/icon-sun.svg" alt=""></button>
+        <Theme :mode="mode" @nightmode="nightmode"/>
       </div>
     
       <form @submit.prevent="addTodo" action="" class="bg-gray-900 flex items-center gap-10">
@@ -26,26 +23,29 @@
             <div @click="toggleCompleted(todo)" :class="{'checked' : todo.completed}" class="undone">
               <img :class="{'iconchecked' : todo.completed}" class="w-auto pt-1 m-auto hidden" src="../assets/images/icon-check.svg" alt=""></div> 
               <p :class="{'namechecked' : todo.completed}" class="ml-14 w-10/12">{{ todo.name }}</p>
+              <p>{{ todo.date }}</p>
               
             <button class="deleteBtn butt"  @click="deleteTodo(index)"><img src="../assets/images/icon-cross.svg" alt=""></button>
           </li>
         </ul>
-    
-        <div class="filterBtns lg:px-12 md:px-7 px-3 py-4">
-          <p class="sec1">{{ todos.length }} Items left</p>
+     </div>
 
-          <div class="flex items-center gap-5">
-            <button :class="{active: type ===''}" @click="filterType('')" class="butt">All</button>
-            <button :class="{active: type ==='ongoing'}" @click="filterType('ongoing')" class="butt">Active</button>
-            <button :class="{active: type ==='completed'}" @click="filterType('completed')" class="butt">Completed</button>
-          </div>
 
-          <button @click="clearCompleted" class="butt sec2">Clear Completed</button>
+      <div class="filterBtns bg-gray-900 lg:px-12 md:px-7 px-3 py-4">
+        <p class="sec1">{{ todos.length }} Items left</p>
+
+        <div class="flex items-center gap-5">
+          <button :class="{active: type ===''}" @click="filterType('')" class="butt">All</button>
+          <button :class="{active: type ==='ongoing'}" @click="filterType('ongoing')" class="butt">Active</button>
+          <button :class="{active: type ==='completed'}" @click="filterType('completed')" class="butt">Completed</button>
         </div>
 
+        <button @click="clearCompleted" class="butt sec2">Clear Completed</button>
       </div>
 
-      <div class="text-center mb-10 mt-20 sec3">
+     
+
+      <div class="text-center mb-10 mt-10 sec3">
          <p>Drag and drop to reorder list</p>
       </div>
 
@@ -57,15 +57,16 @@
 
 <script>
 
-
+import Theme from '../components/Theme.vue'
 export default {
   name: 'Todo',
   components: {
-   
+    Theme
   },
   
   data() {
     return {
+      mode: '',
       type: '',
       newTodo: '',
       todo: '',
@@ -78,6 +79,9 @@ export default {
       this.todos = JSON.parse(localStorage.getItem('todos'))  
     } else 
       return false
+
+    this.currentmode = localStorage.getItem('Theme')
+    this.mode = this.currentmode
   },
 
 
@@ -98,6 +102,11 @@ export default {
 
 
   methods: {
+    nightmode() {
+      this.mode === 'dark' ? this.mode = 'light' : this.mode = 'dark'
+      localStorage.setItem('Theme', this.mode)
+    },
+
     filterType(type) {
       this.type = type;
     },
@@ -108,7 +117,7 @@ export default {
       } else {
         this.todos = JSON.parse(localStorage.getItem('todos'))  
       }
-       this.todos.push(this.todo)
+       this.todos.unshift(this.todo)
       localStorage.setItem('todos', JSON.stringify(this.todos))
 
     },
@@ -116,7 +125,7 @@ export default {
     addTodo() {
       if(this.newTodo) {
         this.todo = {
-          // id: this.todos.length + 1,
+          date: '',
           name: this.newTodo,
           completed: false
         }
@@ -143,17 +152,32 @@ export default {
       localStorage.setItem('todos', JSON.stringify(this.todos))
     },
 
-    changeTheme() {
-
-    }
-
   }
+
+ 
 }
 </script>
 
 
 
-<style scoped>
- 
+<style>
+.todo  {
+  background: black;
+}
+
+ .dark {
+   background: #fff;
+ }
+
+.dark .todo{
+    background: #fff;
+   color:#000;
+}
+.holder{
+  background-image:url('../assets/images/bg-desktop-dark.jpg');
+}
+.dark .holder{
+   background-image:url('../assets/images/bg-desktop-light.jpg');
+}
 
 </style>
