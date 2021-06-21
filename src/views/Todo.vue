@@ -8,7 +8,7 @@
         <Theme :mode="mode" @nightmode="nightmode"/>
       </div>
     
-      <form @submit.prevent="addTodo" action="" class="bg-gray-900 flex items-center gap-10">
+      <form @submit.prevent="addTodo" action="" class="bg-gray-900 flex items-center md:gap-10 gap-5">
         <div class="undone"></div>
         <input type="text"
           placeholder="Create a new todo"
@@ -21,10 +21,11 @@
         <ul class="list-items">
           <li v-for="(todo, index) in filteredTodos" :key="todo.id" class="items">
             <div @click="toggleCompleted(todo)" :class="{'checked' : todo.completed}" class="undone">
-              <img :class="{'iconchecked' : todo.completed}" class="w-auto pt-1 m-auto hidden" src="../assets/images/icon-check.svg" alt=""></div> 
-              <p :class="{'namechecked' : todo.completed}" class="ml-14 w-10/12">{{ todo.name }}</p>
-              <p>{{ todo.date }}</p>
-              
+              <img :class="{'iconchecked' : todo.completed}" class="w-auto pt-1 m-auto hidden" src="../assets/images/icon-check.svg" alt="">
+            </div> 
+              <p :class="{'namechecked' : todo.completed}" class="flex flex-col lg:ml-14 ml-5 w-10/12">{{ todo.name }}
+              <span class="text-red-200 italic">{{ todo.date }}</span></p>
+
             <button class="deleteBtn butt"  @click="deleteTodo(index)"><img src="../assets/images/icon-cross.svg" alt=""></button>
           </li>
         </ul>
@@ -75,15 +76,22 @@ export default {
   },
 
   beforeMount: function() {
-    if (this.todos) {
-      this.todos = JSON.parse(localStorage.getItem('todos'))  
+    this.newTodos = JSON.parse(localStorage.getItem('todos'))
+    if (!this.newTodos) {
+      fetch('./todos.json')
+      .then((res) => res.json())
+      .then ((data) => localStorage.setItem('defaultTodos', JSON.stringify(data)))
+      this.todos = JSON.parse(localStorage.getItem('defaultTodos'))  
     } else 
-      return false
+      this.todos  = this.newTodos
 
     this.currentmode = localStorage.getItem('Theme')
     this.mode = this.currentmode
   },
 
+  created() {
+    setInterval(this.getNow, 1000)
+  },
 
   computed: {
     filteredTodos() {
@@ -102,15 +110,6 @@ export default {
 
 
   methods: {
-    nightmode() {
-      this.mode === 'dark' ? this.mode = 'light' : this.mode = 'dark'
-      localStorage.setItem('Theme', this.mode)
-    },
-
-    filterType(type) {
-      this.type = type;
-    },
-
     saveTodo(todo) {
       if(!localStorage.getItem('todos')) {
         this.todos = []
@@ -125,12 +124,13 @@ export default {
     addTodo() {
       if(this.newTodo) {
         this.todo = {
-          date: '',
+          date: this.date,
           name: this.newTodo,
           completed: false
         }
         this.saveTodo() 
         this.newTodo = ''; 
+        alert(`${todo.name} added on ${todo.date}`)
        } else {
           alert('No Task')
        }
@@ -151,6 +151,22 @@ export default {
       this.todos = this.todos.filter((todo) => !todo.completed) 
       localStorage.setItem('todos', JSON.stringify(this.todos))
     },
+
+    nightmode() {
+      this.mode === 'dark' ? this.mode = 'light' : this.mode = 'dark'
+      localStorage.setItem('Theme', this.mode)
+    },
+
+    filterType(type) {
+      this.type = type;
+    },
+
+    getNow: function() {
+      const today = new Date();
+      const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
+      // this.date = date
+    },
+
 
   }
 
@@ -175,6 +191,9 @@ export default {
 }
 .holder{
   background-image:url('../assets/images/bg-desktop-dark.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 .dark .holder{
    background-image:url('../assets/images/bg-desktop-light.jpg');

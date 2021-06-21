@@ -1,0 +1,32 @@
+[
+    {
+      "name": "Complete online javascript course",
+      "completed": true,
+      "date": "2021-6-03"
+    },
+    {
+      "name": "Jog around the park 3x",
+      "completed": false,
+      "date": "2021-6-07"
+    },
+    {
+      "name": "10 minuites mediation",
+      "completed": false,
+      "date": "2021-6-09"
+    },
+    {
+      "name": "Read for 1 hour",
+      "completed": false,
+      "date": "2021-6-12"
+    },
+    {
+      "name": "Pick up groceries",
+      "completed": false,
+      "date": "2021-6-16"
+    },
+    {
+      "name": "Complete Todo App on Frontend Mentor",
+      "completed": false,
+      "date": "2021-6-20"
+    }
+  ]
