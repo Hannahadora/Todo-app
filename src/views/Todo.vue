@@ -1,6 +1,6 @@
 <template>
   <div class="todo h-screen w-full" :class="mode">
-    <div class="holder h-80"></div>
+    <div class="holder h-72"></div>
 
     <div id="todo-board" class="lg:w-1/2 md:w-9/12 w-10/12 items-center">
       <div class="flex justify-between items-center">
@@ -8,7 +8,7 @@
         <Theme :mode="mode" @nightmode="nightmode"/>
       </div>
     
-      <form @submit.prevent="addTodo" action="" class="bg-gray-900 flex items-center md:gap-10 gap-5">
+      <form @submit.prevent="addTodo" action="" class="bg-gray-900 flex items-center md:gap-10 gap-5 shadow">
         <div class="undone"></div>
         <input type="text"
           placeholder="Create a new todo"
@@ -16,7 +16,7 @@
           class="py-3 focus:outline-none w-10/12">
       </form>
 
-      <div class="todo-list bg-gray-900">
+      <div class="todo-list bg-gray-900 shadow">
 
         <ul class="list-items">
           <li v-for="(todo, index) in filteredTodos" :key="todo.id" class="items">
@@ -32,7 +32,7 @@
      </div>
 
 
-      <div class="filterBtns bg-gray-900 lg:px-12 md:px-7 px-3 py-4">
+      <div class="filterBtns bg-gray-900 lg:px-12 md:px-7 px-3 py-4 shadow ">
         <p class="sec1">{{ todos.length }} Items left</p>
 
         <div class="flex items-center gap-5">
@@ -46,7 +46,7 @@
 
      
 
-      <div class="text-center mb-10 mt-10 sec3">
+      <div class="dnd text-center mb-10 mt-10 sec3">
          <p>Drag and drop to reorder list</p>
       </div>
 
@@ -130,7 +130,7 @@ export default {
         }
         this.saveTodo() 
         this.newTodo = ''; 
-        alert(`${todo.name} added on ${todo.date}`)
+        alert('New task added successfully')
        } else {
           alert('No Task')
        }
@@ -164,7 +164,7 @@ export default {
     getNow: function() {
       const today = new Date();
       const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
-      // this.date = date
+      this.date = date
     },
 
 
@@ -189,6 +189,32 @@ export default {
     background: #fff;
    color:#000;
 }
+
+.dark form{
+    background: #fff;
+   color:#000;
+}
+
+.dark .todo-list{
+    background: #fff;
+   color:#000;
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);	
+}
+
+.dark .dnd{
+   color:#000;
+}
+
+.dark .items {
+  border-bottom: 1px solid black;
+}
+
+.dark .filterBtns{
+    background: #fff;
+    border-bottom: 1px solid black;
+    color:#000;
+}
+
 .holder{
   background-image:url('../assets/images/bg-desktop-dark.jpg');
   background-repeat: no-repeat;

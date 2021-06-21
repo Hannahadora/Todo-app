@@ -5,7 +5,7 @@ body {
 
 #todo-board {
     position: absolute;
-    top: 80px;
+    top: 50px;
     left: 320px;
 }
 
@@ -88,17 +88,32 @@ input :focus {
 }
 
 .filterBtns {
+    border-bottom: 1px solid white;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
 }
 
-/* .dark {
+::-webkit-scrollbar {
+    width: 3px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
     background: #000;
-    color: white;
-} */
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: rgb(223, 136, 136);
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
 
+  }
 
 @media screen and (max-width: 768px) {
     #todo-board {
