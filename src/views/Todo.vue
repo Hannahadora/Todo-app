@@ -16,7 +16,7 @@
           class="py-3 focus:outline-none w-10/12">
       </form>
 
-      <div class="todo-list bg-gray-900 shadow">
+     <div class="todo-list bg-gray-900 shadow">
 
         <ul class="list-items">
           <li v-for="(todo, index) in filteredTodos" :key="todo.id" class="items">
@@ -44,7 +44,7 @@
         <button @click="clearCompleted" class="butt sec2">Clear Completed</button>
       </div>
 
-     
+     <Todolist />
 
       <div class="dnd text-center mb-10 mt-10 sec3">
          <p>Drag and drop to reorder list</p>
@@ -59,14 +59,17 @@
 <script>
 
 import Theme from '../components/Theme.vue'
+// import Todolist from '../components/Todolist.vue'
 export default {
   name: 'Todo',
   components: {
-    Theme
+    Theme,
+    // Todolist
   },
   
   data() {
     return {
+      
       mode: '',
       type: '',
       newTodo: '',
@@ -75,15 +78,19 @@ export default {
     }
   },
 
-  beforeMount: function() {
+  beforeMount() {
+
     this.newTodos = JSON.parse(localStorage.getItem('todos'))
     if (!this.newTodos) {
-      fetch('./todos.json')
-      .then((res) => res.json())
-      .then ((data) => localStorage.setItem('defaultTodos', JSON.stringify(data)))
-      this.todos = JSON.parse(localStorage.getItem('defaultTodos'))  
-    } else 
-      this.todos  = this.newTodos
+      fetch('./todos.json/') 
+    .then(res => { return res.json()})
+    .then(data => { localStorage['defaultTodo'] = JSON.stringify(data)
+    this.todos = JSON.parse(localStorage.getItem('defaultTodo'))
+    })
+    } else {
+        this.todos = this.newTodos
+    }
+
 
     this.currentmode = localStorage.getItem('Theme')
     this.mode = this.currentmode
@@ -130,7 +137,7 @@ export default {
         }
         this.saveTodo() 
         this.newTodo = ''; 
-        alert('New task added successfully')
+        // alert('New task added successfully')
        } else {
           alert('No Task')
        }
@@ -179,23 +186,28 @@ export default {
 <style>
 .todo  {
   background: black;
+  transition: background 0.5s ease-out;
 }
 
  .dark {
    background: #fff;
+   transition: background 0.5s ease-out;
  }
 
 .dark .todo{
     background: #fff;
    color:#000;
+   transition: background 0.5s ease-out;
 }
 
 .dark form{
     background: #fff;
    color:#000;
+   transition: background 0.5s ease-out;
 }
 
 .dark .todo-list{
+  transition: background 0.5s ease-out;
     background: #fff;
    color:#000;
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);	
@@ -213,16 +225,19 @@ export default {
     background: #fff;
     border-bottom: 1px solid black;
     color:#000;
+    transition: background 0.5s ease-out;
 }
 
 .holder{
   background-image:url('../assets/images/bg-desktop-dark.jpg');
+  transition: background 0.5s ease-out;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
 }
 .dark .holder{
    background-image:url('../assets/images/bg-desktop-light.jpg');
+   transition: background 0.5s ease-out;
 }
 
 </style>

@@ -1,4 +1,9 @@
 body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background-color: #000;
+    transition: background 0.5s ease-out;
     font-family: 'Josefin Sans', sans-serif;
     color: hsl(0, 0%, 98%);
 }
@@ -47,6 +52,7 @@ input :focus {
     background-repeat: no-repeat;
     background-position: center;
     background-image: linear-gradient(to left, hsl(192, 100%, 67%), hsl(280, 87%, 65%));
+    transition: background 0.5s ease-out;
   }
 
 .iconchecked {
