@@ -38,6 +38,7 @@ input :focus {
 .list-items {
     height: 450px;
     overflow-y: scroll;
+    color: #fff;
 }
 
 .undone {

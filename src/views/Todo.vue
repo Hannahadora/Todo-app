@@ -202,7 +202,7 @@ export default {
 
 .dark form{
     background: #fff;
-   color:#000;
+   color:#fff;
    transition: background 0.5s ease-out;
 }
 
