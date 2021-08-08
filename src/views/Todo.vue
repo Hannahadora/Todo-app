@@ -2,18 +2,18 @@
   <div class="todo h-screen w-full" :class="mode">
     <div class="holder h-72"></div>
 
-    <div id="todo-board" class="lg:w-1/2 md:w-9/12 w-10/12 items-center">
+    <div id="todo-board" class="h-screen xl:w-1/2 lg:w-10/12 md:w-9/12 w-11/12 items-center">
       <div class="flex justify-between items-center">
         <h1 class="text-white text-xl tracking-widest">TODO</h1>
         <Theme :mode="mode" @nightmode="nightmode"/>
       </div>
     
-      <form @submit.prevent="addTodo" action="" class="bg-gray-900 flex items-center md:gap-10 gap-5 shadow">
+      <form @submit.prevent="addTodo" action="" class="bg-gray-900 flex items-center md:gap-12 gap-5 shadow">
         <div class="undone"></div>
         <input type="text"
           placeholder="Create a new todo"
           v-model="newTodo"
-          class="py-3 focus:outline-none w-10/12">
+          class="text-white py-3 focus:outline-none w-10/12">
       </form>
 
      <div class="todo-list bg-gray-900 shadow">
@@ -24,7 +24,7 @@
               <img :class="{'iconchecked' : todo.completed}" class="w-auto pt-1 m-auto hidden" src="../assets/images/icon-check.svg" alt="">
             </div> 
               <p :class="{'namechecked' : todo.completed}" class="flex flex-col lg:ml-14 ml-5 w-10/12">{{ todo.name }}
-              <span class="text-red-200 italic">{{ todo.date }}</span></p>
+              <span class="text-red-500 italic">{{ todo.date }}</span></p>
 
             <button class="deleteBtn butt"  @click="deleteTodo(index)"><img src="../assets/images/icon-cross.svg" alt=""></button>
           </li>
@@ -44,9 +44,7 @@
         <button @click="clearCompleted" class="butt sec2">Clear Completed</button>
       </div>
 
-     <Todolist />
-
-      <div class="dnd text-center mb-10 mt-10 sec3">
+      <div class="dnd text-white text-center mb-10 mt-10 sec3">
          <p>Drag and drop to reorder list</p>
       </div>
 
@@ -59,12 +57,10 @@
 <script>
 
 import Theme from '../components/Theme.vue'
-// import Todolist from '../components/Todolist.vue'
 export default {
   name: 'Todo',
   components: {
     Theme,
-    // Todolist
   },
   
   data() {
@@ -202,8 +198,12 @@ export default {
 
 .dark form{
     background: #fff;
-   color:#fff;
+   color:#000;
    transition: background 0.5s ease-out;
+}
+
+.dark input {
+  color: #000;
 }
 
 .dark .todo-list{
@@ -219,11 +219,13 @@ export default {
 
 .dark .items {
   border-bottom: 1px solid black;
+  color: #000;
 }
 
 .dark .filterBtns{
     background: #fff;
     border-bottom: 1px solid black;
+    border-top: 1px solid black;
     color:#000;
     transition: background 0.5s ease-out;
 }
